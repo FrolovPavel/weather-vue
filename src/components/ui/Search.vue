@@ -1,13 +1,13 @@
 <template>
-    $END$
+
 </template>
 
 <script>
     export default {
-        name: "Search"
+        name: "search-component"
     }
 </script>
 
-<style scoped>
+<style>
 
 </style>

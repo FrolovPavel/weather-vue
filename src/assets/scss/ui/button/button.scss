@@ -1,0 +1,17 @@
+.btn {
+  background-color: $white;
+  min-width: 32px;
+  height: 32px;
+  border-radius: $borderUi;
+  box-shadow: $shadowMain;
+  border: 0;
+  transition: .3s ease;
+  transition-property: transform, box-shadow;
+  &:hover {
+    box-shadow: $shadowHover;
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+}
