@@ -1,7 +1,8 @@
 <template>
     <div id="app">
-        <Button />
-        <Button>Sdfgsdfgsdfg</Button>
+        <Button
+            icon="search"
+        />
     </div>
 </template>
 

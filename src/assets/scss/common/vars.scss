@@ -3,7 +3,8 @@ $backgroundGradient: linear-gradient(180deg, #CDDAF9 0%, rgba(245, 247, 251, 0) 
 $backgroundMain: #F7F7F7;
 $white: #ffffff;
 $dark: #000000;
-$hoverSelect: #FBFBFB;
+$selectHover: $backgroundMain;
+$selectDivider: #F0F0F0;
 
 //==========Shadow==========
 $shadowMain: 0px 4px 12px rgba(0, 0, 0, 0.15);
@@ -15,6 +16,7 @@ $borderBlank: 20px;
 
 //==========FontSize==========
 $smallFz: 16px;
+$iconFz: 24px;
 $mediumFz: 36px;
 $largeFz: 85px;
 

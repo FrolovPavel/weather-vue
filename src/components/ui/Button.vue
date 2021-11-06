@@ -1,12 +1,23 @@
 <template>
-    <button class="btn">
+    <button
+        class="btn"
+        :class="setIcon"
+    >
         <slot></slot>
     </button>
 </template>
 
 <script>
     export default {
-        name: "button-component"
+        name: "button-component",
+        props: {
+            icon: String
+        },
+        computed: {
+            setIcon () {
+              return this.icon ? `icon-${this.icon}` : ''
+            }
+        }
     }
 </script>
 
