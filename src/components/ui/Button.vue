@@ -2,25 +2,21 @@
     <button
         class="btn"
         :class="setIcon"
+        @click="$emit('click')"
     >
         <slot></slot>
     </button>
 </template>
 
 <script>
-    export default {
-        name: "button-component",
-        props: {
-            icon: String
-        },
-        computed: {
-            setIcon () {
-              return this.icon ? `icon-${this.icon}` : ''
-            }
+export default {
+    props: {
+        icon: String
+    },
+    computed: {
+        setIcon () {
+          return this.icon ? `icon-${this.icon}` : ''
         }
     }
+}
 </script>
-
-<style>
-
-</style>

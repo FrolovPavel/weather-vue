@@ -5,10 +5,10 @@
   border-radius: $borderUi;
   box-shadow: $shadowMain;
   border: 0;
-  transition: .3s ease;
-  transition-property: transform, box-shadow;
+  transition: .3s ease box-shadow;
   cursor: pointer;
   position: relative;
+
   &:before {
     font-size: $iconFz;
     position: absolute;
@@ -19,10 +19,6 @@
 
   &:hover {
     box-shadow: $shadowHover;
-    transform: translateY(-1px);
   }
 
-  &:active {
-    transform: translateY(1px);
-  }
 }

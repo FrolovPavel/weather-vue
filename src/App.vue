@@ -1,16 +1,31 @@
 <template>
     <div id="app">
-        <Button
-            icon="search"
+        <select-component
+            :options="selectOptionsWeather"
         />
+        <button-component class="test" @click="test = !test"></button-component>
     </div>
 </template>
 
 <script>
-    import Button from "./components/ui/Button";
+import ButtonComponent from "./components/ui/Button";
+import SelectComponent from "./components/ui/Select"
+import {mapState} from 'vuex'
     export default {
+        data: () => ({
+            test: false,
+        }),
         components: {
-            Button
+            ButtonComponent,
+            SelectComponent
+        },
+        computed: {
+            ...mapState({
+                selectOptionsWeather: state => state.selectOptionsWeather
+            })
+        },
+        mounted() {
+            console.log(this.selectOptionsWeather)
         }
     }
 </script>
@@ -25,5 +40,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.test {
+    margin-top: 30px;
 }
 </style>
