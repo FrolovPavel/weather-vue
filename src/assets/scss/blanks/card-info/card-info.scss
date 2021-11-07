@@ -1,0 +1,40 @@
+.card-info {
+    &__wrapper {
+        width: 250px;
+        height: 170px;
+        background-color: $white;
+        box-shadow: $shadowMain;
+        border-radius: $borderBlank;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    &__title {
+        text-align: right;
+        font-weight: 400;
+        font-size: $smallFz;
+        line-height: $smallLh;
+    }
+
+    &__bottom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: end;
+    }
+
+    &__img {
+        img  {
+            width: 100%;
+        }
+    }
+
+    &__value {
+        font-size: $mediumFz;
+        line-height: $mediumFz;
+        font-weight: 700;
+    }
+
+    &__unit {
+        text-align: right;
+    }
+}

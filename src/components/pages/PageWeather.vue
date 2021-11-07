@@ -1,7 +1,11 @@
 <template>
     <div class="weather">
         <ButtonComponent></ButtonComponent>
-        <SelectComponent></SelectComponent>
+        <SelectComponent
+            :options="selectOptionsWeather"
+        />
+        <br>
+        <CardInfoComponent></CardInfoComponent>
     </div>
 </template>
 
@@ -9,14 +13,15 @@
     import ButtonComponent from "../ui/Button";
     import SelectComponent from "../ui/Select";
     import {mapState} from "vuex";
-
+    import CardInfoComponent from "../blanks/CardInfo";
     export default {
         data: () => ({
             test: false,
         }),
         components: {
             ButtonComponent,
-            SelectComponent
+            SelectComponent,
+            CardInfoComponent
         },
         computed: {
             ...mapState({
