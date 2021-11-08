@@ -8,6 +8,8 @@
         <CardInfoComponent></CardInfoComponent>
         <br>
         <SearchComponent></SearchComponent>
+        <br>
+        <CardInfoBigComponent></CardInfoBigComponent>
     </div>
 </template>
 
@@ -17,6 +19,7 @@ import SelectComponent from "../ui/Select";
 import {mapState} from "vuex";
 import CardInfoComponent from "../blanks/CardInfo";
 import SearchComponent from "../ui/Search";
+import CardInfoBigComponent from "../blanks/CardInfoBig";
 export default {
     data: () => ({
         test: false,
@@ -25,7 +28,8 @@ export default {
         ButtonComponent,
         SelectComponent,
         CardInfoComponent,
-        SearchComponent
+        SearchComponent,
+        CardInfoBigComponent
     },
     computed: {
         ...mapState({

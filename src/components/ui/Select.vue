@@ -1,13 +1,14 @@
 <template>
-    <div class="select" :class="{'active': isShowOptions}" @click.stop="toggleOptions">
+    <div class="select" :class="{'active': isShowOptions}" @click="toggleOptions">
         <div class="select__value">{{optionValue}}</div>
         <transition name="option">
             <div class="select__options" v-if="isShowOptions">
                 <div
-                        v-for="option in options"
-                        :key="option.id"
-                        class="select__option"
-                        @click.stop="setOptionValue(option)"
+                    v-for="(option,index) in options"
+                    :key="option.id"
+                    class="select__option"
+                    @click.stop="setOptionValue(option)"
+                    :tabindex="index"
                 >
                     {{option.name}}
                 </div>
