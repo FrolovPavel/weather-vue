@@ -34,8 +34,11 @@
         grid-gap: 20px;
     }
 
-    &__right {
-
+    &__placeholder {
+        font-size: $largeFz;
+        line-height: $largeLh;
+        width: 100%;
+        text-align: center;
     }
 
 }

@@ -5,14 +5,15 @@
             type="text"
             @input="onInputSearch"
             :value="value"
-            placeholder="Введите город"
+            placeholder="Поиск..."
             autofocus
+            ref="input"
         >
         <transition name="fade">
             <button
-                    v-if="value"
-                    @click="removeValue"
-                    class="search__btn"
+                v-if="value"
+                @click="removeValue"
+                class="search__btn"
             >
             </button>
         </transition>
@@ -25,10 +26,7 @@
                     @click="selectValue(option)"
                     :tabindex="index"
                 >
-<!--                    <span v-if="option.nameCity">{{option.nameCity}}, </span>-->
-<!--                    <span v-if="option.settlement">{{option.settlement}}, </span>-->
-<!--                    <span>{{option.regionType}}, </span>-->
-                    <span>{{option.value}}</span>
+                    {{option.value}}
                 </div>
             </div>
         </transition>
@@ -36,41 +34,48 @@
 </template>
 
 <script>
-import {mapActions, mapState} from 'vuex'
+import {mapActions, mapState, mapMutations} from 'vuex'
 
 export default {
     name: "search-component",
     data:() => ({
         value: '',
-        isShowOption: false
     }),
     methods: {
         ...mapActions([
-            'getSearchOptions'
+            'getSearchOptions',
+        ]),
+        ...mapMutations([
+            'setIsShowOption',
         ]),
         removeValue () {
             this.value = ''
+            this.$refs.input.focus()
         },
         onInputSearch (e) {
             this.value = e.target.value
-            this.showOption()
+            this.setIsShowOption(true)
             this.getSearchOptions(this.value)
+            this.$emit('input', this.value)
         },
         selectValue(option) {
             this.value = option.value
-            this.unshowOption()
-        },
-        unshowOption () {
-            this.isShowOption = false
-        },
-        showOption () {
-            this.isShowOption = true
+            this.setIsShowOption(false)
+            this.$emit('selectValue', 'id', option.geonameId)
         }
     },
     computed: {
        ...mapState([
-           'searchOptions'
+           'searchOptions',
+           'isShowOption'
        ])
+    },
+    watch: {
+        value(newValue) {
+            if(!newValue) {
+                this.setIsShowOption(false)
+            }
+        }
     }
 }
 </script>

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
+import windDirection from '../utils/windDirection.js'
+import convertUnixDate from '../utils/convertUnixDate.js'
 
 Vue.use(Vuex)
 
@@ -30,7 +32,12 @@ export default new Vuex.Store({
         ],
         searchOptions: [],
         tokenSearch: "ab237855f0c699002d2157207ddd43736f6c9a9a",
-        weatherData: []
+        weatherDataCardBig: {},
+        weatherDataCard: [],
+        sentValueRequest: null,
+        typeRequest: null,
+        loading: false,
+        isShowOption: false
     },
     mutations: {
         setSearchOptions (state, searchResult) {
@@ -44,6 +51,67 @@ export default new Vuex.Store({
                     value: city.value.split(',').reverse().join(', ')
                 }
             })
+        },
+        setWeatherDataCardBig (state, weather) {
+            console.log(weather)
+            state.weatherDataCardBig = {
+                title: weather.name,
+                subtitle: weather.weather[0].description,
+                icon: weather.weather[0].icon,
+                temp: weather.main.temp,
+                feels: weather.main.feels_like,
+                country: weather.sys.country
+            }
+        },
+        setSentValueRequest (state, value) {
+            state.sentValueRequest = value
+        },
+        setTypeRequest (state, type) {
+            state.typeRequest = type
+        },
+        setIsShowOption (state, show) {
+            state.isShowOption = show
+        },
+        setWeatherDataCard (state, weather) {
+            state.weatherDataCard = [
+                {
+                    title: 'Влажность',
+                    img: 'humidity',
+                    value: weather.main.humidity,
+                    unit: '%'
+
+                },
+                {
+                    title: 'Скорость ветра',
+                    img: 'wind',
+                    value: weather.wind.speed,
+                    unit: 'м/с'
+                },
+                {
+                    title: 'Направление ветра',
+                    img: 'compass',
+                    value: windDirection(weather.wind.deg),
+                    unit: ''
+                },
+                {
+                    title: 'Видимость',
+                    img: 'binocular',
+                    value: Math.round(weather.visibility / 1000),
+                    unit: 'км'
+                },
+                {
+                    title: 'Восход',
+                    img: 'sunrise',
+                    value: convertUnixDate(weather.sys.sunrise, weather.timezone),
+                    unit: ''
+                },
+                {
+                    title: 'Закат',
+                    img: 'sunset',
+                    value: convertUnixDate(weather.sys.sunset, weather.timezone),
+                    unit: ''
+                }
+            ]
         }
     },
     actions: {
@@ -70,13 +138,20 @@ export default new Vuex.Store({
                 commit('setSearchOptions', response.data.suggestions)
 
         },
-        // async getWeatherData({state, commit},city){
-        //     const response =  axios(
-        //         {
-        //             url: `https://api.openweathermap.org/data/2.5/weather?id=${city}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
-        //             method: 'GET'
-        //         })
-        // }
+        async getWeatherData({state, commit}){
+            const response = await axios(
+                {
+                    url: `https://api.openweathermap.org/data/2.5/weather?${state.typeRequest}=${state.sentValueRequest}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
+                    method: 'GET'
+                })
+                commit('setWeatherDataCardBig', response.data)
+                commit('setWeatherDataCard', response.data)
+        }
+    },
+    getters: {
+        giveWeatherData(state) {
+            return state.weatherData
+        }
     },
     modules: {
     }
