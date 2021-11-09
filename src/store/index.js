@@ -28,10 +28,9 @@ export default new Vuex.Store({
                 name: 'Погода на 5 дней'
             }
         ],
-        searchOptions: [
-
-        ],
-        tokenSearch: "ab237855f0c699002d2157207ddd43736f6c9a9a"
+        searchOptions: [],
+        tokenSearch: "ab237855f0c699002d2157207ddd43736f6c9a9a",
+        weatherData: []
     },
     mutations: {
         setSearchOptions (state, searchResult) {
@@ -43,10 +42,6 @@ export default new Vuex.Store({
                 return {
                     geonameId: city.data.geoname_id,
                     value: city.value.split(',').reverse().join(', ')
-                    // nameCity: city.data.city,
-                    // regionType: city.data.region_with_type,
-                    // settlement: city.data.settlement_with_type,
-                    // country: city.data.country
                 }
             })
         }
@@ -74,7 +69,14 @@ export default new Vuex.Store({
             })
                 commit('setSearchOptions', response.data.suggestions)
 
-        }
+        },
+        // async getWeatherData({state, commit},city){
+        //     const response =  axios(
+        //         {
+        //             url: `https://api.openweathermap.org/data/2.5/weather?id=${city}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
+        //             method: 'GET'
+        //         })
+        // }
     },
     modules: {
     }

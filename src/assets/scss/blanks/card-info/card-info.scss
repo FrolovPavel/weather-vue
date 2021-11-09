@@ -1,12 +1,14 @@
 .card-info {
-    &__wrapper {
-        width: 250px;
-        height: 170px;
-        background-color: $white;
-        box-shadow: $shadowMain;
-        border-radius: $borderBlank;
-        padding: 15px;
-        box-sizing: border-box;
+    background-color: $white;
+    box-shadow: $shadowMain;
+    border-radius: $borderBlank;
+    padding: 15px;
+    box-sizing: border-box;
+    transition: .3s ease box-shadow;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: $shadowHover;
     }
 
     &__title {
