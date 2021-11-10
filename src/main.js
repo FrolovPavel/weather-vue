@@ -2,6 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import ScrollBarComponent from "./components/ui/ScrollBar"
+
+Vue.component('ScrollBarComponent', ScrollBarComponent)
 
 Vue.config.productionTip = false
 

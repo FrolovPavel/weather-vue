@@ -1,19 +1,24 @@
 <template>
     <div class="select" :class="{'active': isShowOptions}" @click="toggleOptions">
+
         <div class="select__value">{{optionValue}}</div>
+
         <transition name="option">
             <div class="select__options" v-if="isShowOptions">
-                <div
-                    v-for="(option,index) in options"
-                    :key="option.id"
-                    class="select__option"
-                    @click.stop="setOptionValue(option)"
-                    :tabindex="index"
-                >
-                    {{option.name}}
-                </div>
+                <ScrollBarComponent>
+                    <div
+                            v-for="(option,index) in options"
+                            :key="option.id"
+                            class="select__option"
+                            @click.stop="setOptionValue(option)"
+                            :tabindex="index"
+                    >
+                        {{option.name}}
+                    </div>
+                </ScrollBarComponent>
             </div>
         </transition>
+
     </div>
 </template>
 
@@ -21,7 +26,8 @@
 export default {
     data: () => ({
         isShowOptions: false,
-        optionValue: null
+        optionValue: null,
+
     }),
     props: {
         options: {

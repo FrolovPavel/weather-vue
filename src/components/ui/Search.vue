@@ -19,15 +19,17 @@
         </transition>
         <transition name="option">
             <div class="search__options" v-if="isShowOption">
-                <div
-                    v-for="(option, index) in searchOptions"
-                    :key="option.geonameId"
-                    class="search__option"
-                    @click="selectValue(option)"
-                    :tabindex="index"
-                >
-                    {{option.value}}
-                </div>
+                <ScrollBarComponent>
+                    <div
+                            v-for="(option, index) in searchOptions"
+                            :key="option.geonameId"
+                            class="search__option"
+                            @click="selectValue(option)"
+                            :tabindex="index"
+                    >
+                        {{option.value}}
+                    </div>
+                </ScrollBarComponent>
             </div>
         </transition>
     </div>
