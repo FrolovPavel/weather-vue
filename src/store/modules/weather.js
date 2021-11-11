@@ -27,7 +27,7 @@ export const weather = {
         weatherDataCard: [],
         sentValueRequest: null,
         typeRequest: null,
-        loading: false,
+        error: false,
 
     }),
     mutations: {
@@ -48,7 +48,6 @@ export const weather = {
         setTypeRequest (state, type) {
             state.typeRequest = type
         },
-
         setWeatherDataCard (state, weather) {
             state.weatherDataCard = [
                 {
@@ -88,17 +87,26 @@ export const weather = {
                     unit: ''
                 }
             ]
+        },
+        setError(state, bol) {
+            state.error = bol
         }
     },
     actions: {
         async getWeatherData({state, commit}){
-            const response = await axios(
-                {
-                    url: `https://api.openweathermap.org/data/2.5/weather?${state.typeRequest}=${state.sentValueRequest}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
-                    method: 'GET'
-                })
-            commit('setWeatherDataCardBig', response.data)
-            commit('setWeatherDataCard', response.data)
+            try {
+                const response = await axios(
+                    {
+                        url: `https://api.openweathermap.org/data/2.5/weather?${state.typeRequest}=${state.sentValueRequest}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
+                        method: 'GET'
+                    })
+                commit('setError', false)
+                commit('setWeatherDataCardBig', response.data)
+                commit('setWeatherDataCard', response.data)
+            } catch (e) {
+                commit('setError', true)
+            }
+
         }
     },
     namespaced: true

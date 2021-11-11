@@ -33,7 +33,9 @@
                     />
                 </div>
             </transition>
-            <p class="weather__placeholder" v-if="!weatherDataCard.length">Введите город...</p>
+            <p class="weather__placeholder" v-if="!weatherDataCard.length && !error">Введите город...</p>
+            <p class="weather__error" v-if="error">Вы ввели город не правельно!</p>
+
         </div>
         <div class="weather__right">
             <CardInfoBigComponent
@@ -64,6 +66,7 @@ export default {
             selectOptionsWeather: state => state.weather.selectOptionsWeather,
             weatherDataCardBig: state => state.weather.weatherDataCardBig,
             weatherDataCard: state => state.weather.weatherDataCard,
+            error: state => state.weather.error,
             valueInputSearch: state => state.valueInputSearch
         }),
     },

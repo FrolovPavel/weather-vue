@@ -34,11 +34,16 @@
         grid-gap: 20px;
     }
 
-    &__placeholder {
+    &__placeholder,
+    &__error {
         font-size: $largeFz;
         line-height: $largeLh;
         width: 100%;
         text-align: center;
+    }
+
+    &__error {
+        color: $error;
     }
 
 }
