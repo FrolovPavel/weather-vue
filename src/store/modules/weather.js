@@ -8,19 +8,23 @@ export const weather = {
         selectOptionsWeather: [
             {
                 id: 1,
-                name: 'Погода сейчас'
+                name: 'Погода сейчас',
+                cnt: 1
+            },
+            {
+                id: 2,
+                name: 'Погода через 3ч.',
+                cnt: 2
             },
             {
                 id: 3,
-                name: 'Погода на ближайшие 3ч.'
+                name: 'Погода через 6ч.',
+                cnt: 3
             },
             {
                 id: 4,
-                name: 'Погода на ближайшие 6ч.'
-            },
-            {
-                id: 5,
-                name: 'Погода на ближайшие 12ч.'
+                name: 'Погода через 12ч.',
+                cnt: 4
             }
         ],
         weatherDataCardBig: {},
@@ -28,6 +32,8 @@ export const weather = {
         sentValueRequest: null,
         typeRequest: null,
         error: false,
+        scopeRequest: 'weather',
+        cnt: 2
 
     }),
     mutations: {
@@ -35,18 +41,12 @@ export const weather = {
             console.log(weather)
             state.weatherDataCardBig = {
                 title: weather.name,
+                country: weather.sys.country,
                 subtitle: weather.weather[0].description,
                 icon: weather.weather[0].icon,
                 temp: Math.round(weather.main.temp),
                 feels: Math.round(weather.main.feels_like),
-                country: weather.sys.country
             }
-        },
-        setSentValueRequest (state, value) {
-            state.sentValueRequest = value
-        },
-        setTypeRequest (state, type) {
-            state.typeRequest = type
         },
         setWeatherDataCard (state, weather) {
             state.weatherDataCard = [
@@ -88,8 +88,71 @@ export const weather = {
                 }
             ]
         },
+        setWeatherDataCardBigOnSelect(state, weather) {
+            console.log(weather)
+            state.weatherDataCardBig = {
+                title: weather.city.name,
+                country: weather.city.country,
+                subtitle: weather.list[weather.list.length -1].weather[0].description,
+                icon: weather.list[weather.list.length -1].weather[0].icon,
+                temp: Math.round(weather.list[weather.list.length -1].main.temp),
+                feels: Math.round(weather.list[weather.list.length -1].main.feels_like)
+            }
+        },
+        setWeatherDataCardOnSelect (state, weather) {
+            state.weatherDataCard = [
+                {
+                    title: 'Влажность',
+                    img: 'humidity',
+                    value: weather.list[weather.list.length -1].main.humidity,
+                    unit: '%'
+                },
+                {
+                    title: 'Скорость ветра',
+                    img: 'wind',
+                    value: weather.list[weather.list.length -1].wind.speed,
+                    unit: 'м/с'
+                },
+                {
+                    title: 'Направление ветра',
+                    img: 'compass',
+                    value: windDirection(weather.list[weather.list.length -1].wind.deg),
+                    unit: ''
+                },
+                {
+                    title: 'Видимость',
+                    img: 'binocular',
+                    value: Math.round(weather.list[weather.list.length -1].visibility / 1000),
+                    unit: 'км'
+                },
+                {
+                    title: 'Восход',
+                    img: 'sunrise',
+                    value: convertUnixDate(weather.city.sunrise, weather.city.timezone),
+                    unit: ''
+                },
+                {
+                    title: 'Закат',
+                    img: 'sunset',
+                    value: convertUnixDate(weather.city.sunset, weather.city.timezone),
+                    unit: ''
+                }
+            ]
+        },
+        setSentValueRequest (state, value) {
+            state.sentValueRequest = value
+        },
+        setTypeRequest (state, type) {
+            state.typeRequest = type
+        },
         setError(state, bol) {
             state.error = bol
+        },
+        setScopeRequest (state, scope ) {
+            state.scopeRequest = scope
+        },
+        setCnt (state, cnt) {
+            state.cnt = cnt
         }
     },
     actions: {
@@ -97,12 +160,18 @@ export const weather = {
             try {
                 const response = await axios(
                     {
-                        url: `https://api.openweathermap.org/data/2.5/weather?${state.typeRequest}=${state.sentValueRequest}&units=metric&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
+                        url: `https://api.openweathermap.org/data/2.5/${state.scopeRequest}?${state.typeRequest}=${state.sentValueRequest}&units=metric&cnt=${state.cnt}&APPID=5b5375b7952906a50e1d978e47509fc7&lang=ru`,
                         method: 'GET'
                     })
                 commit('setError', false)
-                commit('setWeatherDataCardBig', response.data)
-                commit('setWeatherDataCard', response.data)
+                if(state.scopeRequest === 'weather') {
+                    commit('setWeatherDataCardBig', response.data)
+                    commit('setWeatherDataCard', response.data)
+                } else {
+                    commit('setWeatherDataCardBigOnSelect', response.data)
+                    commit('setWeatherDataCardOnSelect', response.data)
+                }
+
             } catch (e) {
                 commit('setError', true)
             }

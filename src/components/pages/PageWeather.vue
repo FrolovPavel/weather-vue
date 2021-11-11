@@ -1,5 +1,5 @@
 <template>
-    <div class="weather">
+    <div class="weather" @keypress.enter="getWeather('q')">
         <div class="weather__left">
             <div class="weather__action">
                 <div class="weather__action-left">
@@ -80,12 +80,14 @@ export default {
             setIsShowOption: 'search/setIsShowOption',
             setValueInputSearch: 'setValueInputSearch'
         }),
-        getWeather(typeRequest) {
+        getWeather(typeRequest, valueInput) {
             this.setTypeRequest(typeRequest)
             this.setSentValueRequest(this.valueInputSearch)
             this.getWeatherData()
             this.setIsShowOption(false)
-            this.setValueInputSearch('')
+            if(valueInput) {
+                this.setValueInputSearch(valueInput)
+            }
         }
     }
 }

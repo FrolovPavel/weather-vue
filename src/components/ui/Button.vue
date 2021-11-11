@@ -2,13 +2,15 @@
     <button
         class="btn"
         :class="setIcon"
-        @click="$emit('click', 'q')"
+        @click="onClick"
     >
         <slot></slot>
     </button>
 </template>
 
 <script>
+import {mapMutations} from "vuex";
+
 export default {
     props: {
         icon: String
@@ -17,6 +19,15 @@ export default {
         setIcon () {
           return this.icon ? `icon-${this.icon}` : ''
         }
+    },
+    methods: {
+        onClick () {
+            this.setScopeRequest('weather')
+            this.$emit('click', 'q')
+        },
+        ...mapMutations({
+            setScopeRequest: 'weather/setScopeRequest',
+        })
     }
 }
 </script>

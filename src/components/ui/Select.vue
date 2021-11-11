@@ -23,6 +23,8 @@
 </template>
 
 <script>
+    import {mapActions, mapMutations} from 'vuex'
+
 export default {
     data: () => ({
         isShowOptions: false,
@@ -45,7 +47,17 @@ export default {
             this.optionValue = option.name
             this.toggleOptions()
             this.$emit('selectOption')
-        }
+            this.setScopeRequest('forecast')
+            this.setCnt(option.cnt)
+            this.getWeatherData()
+        },
+        ...mapMutations({
+            setScopeRequest: 'weather/setScopeRequest',
+            setCnt: 'weather/setCnt',
+        }),
+        ...mapActions({
+            getWeatherData: 'weather/getWeatherData'
+        }),
     },
     computed: {
 

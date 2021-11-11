@@ -45,7 +45,8 @@ export default {
         }),
         ...mapMutations({
             setIsShowOption: 'search/setIsShowOption',
-            setValueInputSearch: 'setValueInputSearch'
+            setValueInputSearch: 'setValueInputSearch',
+            setScopeRequest: 'weather/setScopeRequest',
         }),
         removeValue () {
             this.setValueInputSearch('')
@@ -58,9 +59,10 @@ export default {
             this.$emit('input')
         },
         selectValue(option) {
+            this.setScopeRequest('weather')
             this.setValueInputSearch(option.geonameId)
             this.setIsShowOption(false)
-            this.$emit('selectValue', 'id')
+            this.$emit('selectValue', 'id', option.value)
         }
     },
     computed: {
