@@ -53,7 +53,7 @@
 <script>
 import ButtonComponent from "../ui/Button";
 import SelectComponent from "../ui/Select";
-import {mapState, mapActions, mapMutations, mapGetters} from "vuex";
+import {mapState, mapActions, mapMutations} from "vuex";
 import CardInfoComponent from "../blanks/CardInfo";
 import SearchComponent from "../ui/Search";
 import CardInfoBigComponent from "../blanks/CardInfoBig";
@@ -69,24 +69,21 @@ export default {
         CardInfoBigComponent
     },
     computed: {
-        ...mapState([
-            'selectOptionsWeather',
-            'weatherDataCardBig',
-            'weatherDataCard'
-        ]),
-        ...mapGetters([
-            'giveWeatherData'
-        ])
+        ...mapState({
+            selectOptionsWeather: state => state.weather.selectOptionsWeather,
+            weatherDataCardBig: state => state.weather.weatherDataCardBig,
+            weatherDataCard: state => state.weather.weatherDataCard,
+        }),
     },
     methods: {
-        ...mapActions([
-            'getWeatherData'
-        ]),
-        ...mapMutations([
-            'setSentValueRequest',
-            'setTypeRequest',
-            'setIsShowOption'
-        ]),
+        ...mapActions({
+            getWeatherData: 'weather/getWeatherData'
+        }),
+        ...mapMutations({
+            setSentValueRequest: 'weather/setSentValueRequest',
+            setTypeRequest: 'weather/setTypeRequest',
+            setIsShowOption: 'search/setIsShowOption'
+        }),
         getWeatherBySelect(typeRequest, valueRequest) {
             this.setTypeRequest(typeRequest)
             this.setSentValueRequest(valueRequest)

@@ -19,7 +19,7 @@
         </transition>
         <transition name="option">
             <div class="search__options" v-if="isShowOption">
-                <ScrollBarComponent>
+                <ScrollBarComponent class="search__scroller">
                     <div
                             v-for="(option, index) in searchOptions"
                             :key="option.geonameId"
@@ -44,12 +44,12 @@ export default {
         value: '',
     }),
     methods: {
-        ...mapActions([
-            'getSearchOptions',
-        ]),
-        ...mapMutations([
-            'setIsShowOption',
-        ]),
+        ...mapActions({
+            getSearchOptions: 'search/getSearchOptions'
+        }),
+        ...mapMutations({
+            setIsShowOption: 'search/setIsShowOption',
+        }),
         removeValue () {
             this.value = ''
             this.$refs.input.focus()
@@ -67,10 +67,10 @@ export default {
         }
     },
     computed: {
-       ...mapState([
-           'searchOptions',
-           'isShowOption'
-       ])
+       ...mapState({
+           isShowOption: state => state.search.isShowOption,
+           searchOptions: state => state.search.searchOptions
+       })
     },
     watch: {
         value(newValue) {

@@ -5,7 +5,7 @@
 
         <transition name="option">
             <div class="select__options" v-if="isShowOptions">
-                <ScrollBarComponent>
+                <ScrollBarComponent class="select__scroller">
                     <div
                             v-for="(option,index) in options"
                             :key="option.id"
