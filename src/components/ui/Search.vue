@@ -4,14 +4,14 @@
             class="search__input"
             type="text"
             @input="onInputSearch"
-            :value="value"
+            :value="valueInputSearch"
             placeholder="Поиск..."
             autofocus
             ref="input"
         >
         <transition name="fade">
             <button
-                v-if="value"
+                v-if="valueInputSearch"
                 @click="removeValue"
                 class="search__btn"
             >
@@ -39,41 +39,39 @@
 import {mapActions, mapState, mapMutations} from 'vuex'
 
 export default {
-    name: "search-component",
-    data:() => ({
-        value: '',
-    }),
     methods: {
         ...mapActions({
             getSearchOptions: 'search/getSearchOptions'
         }),
         ...mapMutations({
             setIsShowOption: 'search/setIsShowOption',
+            setValueInputSearch: 'setValueInputSearch'
         }),
         removeValue () {
-            this.value = ''
+            this.setValueInputSearch('')
             this.$refs.input.focus()
         },
         onInputSearch (e) {
-            this.value = e.target.value
+            this.setValueInputSearch(e.target.value)
             this.setIsShowOption(true)
-            this.getSearchOptions(this.value)
-            this.$emit('input', this.value)
+            this.getSearchOptions(this.valueInputSearch)
+            this.$emit('input')
         },
         selectValue(option) {
-            this.value = option.value
+            this.setValueInputSearch(option.geonameId)
             this.setIsShowOption(false)
-            this.$emit('selectValue', 'id', option.geonameId)
+            this.$emit('selectValue', 'id')
         }
     },
     computed: {
        ...mapState({
            isShowOption: state => state.search.isShowOption,
-           searchOptions: state => state.search.searchOptions
+           searchOptions: state => state.search.searchOptions,
+           valueInputSearch: state => state.valueInputSearch
        })
     },
     watch: {
-        value(newValue) {
+        valueInputSearch(newValue) {
             if(!newValue) {
                 this.setIsShowOption(false)
             }

@@ -44,6 +44,7 @@ export default {
         setOptionValue (option) {
             this.optionValue = option.name
             this.toggleOptions()
+            this.$emit('selectOption')
         }
     },
     computed: {

@@ -2,7 +2,7 @@
     <button
         class="btn"
         :class="setIcon"
-        @click="$emit('click')"
+        @click="$emit('click', 'q')"
     >
         <slot></slot>
     </button>

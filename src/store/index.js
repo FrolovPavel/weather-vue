@@ -6,6 +6,15 @@ import {weather} from "./modules/weather";
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    state: () => ({
+        valueInputSearch: ''
+
+    }),
+    mutations: {
+      setValueInputSearch(state, value) {
+          state.valueInputSearch = value
+      }
+    },
     modules: {
         search: search,
         weather: weather

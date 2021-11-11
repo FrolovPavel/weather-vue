@@ -4,7 +4,7 @@ import convertUnixDate from "../../utils/convertUnixDate";
 
 
 export const weather = {
-    state: {
+    state: () => ({
         selectOptionsWeather: [
             {
                 id: 1,
@@ -29,7 +29,7 @@ export const weather = {
         typeRequest: null,
         loading: false,
 
-    },
+    }),
     mutations: {
         setWeatherDataCardBig (state, weather) {
             console.log(weather)

@@ -5,15 +5,12 @@
                 <div class="weather__action-left">
                     <SearchComponent
                         class="weather__search"
-                        @selectValue="getWeatherBySelect"
-                        @input="getValueInput"
-
+                        @selectValue="getWeather"
                     />
                     <ButtonComponent
                         icon="search"
                         class="weather__btn"
-                        @click="getWeatherByClickButton"
-
+                        @click="getWeather"
                     />
                     <ButtonComponent
                         icon="settings"
@@ -24,29 +21,25 @@
                     :options="selectOptionsWeather"
                 />
             </div>
-            <div class="weather__card" v-if="weatherDataCard.length">
-                <CardInfoComponent
-                    v-for="metric in weatherDataCard"
-                    :key="metric.title"
-                    :title="metric.title"
-                    :value="metric.value"
-                    :img="metric.img"
-                    :unit="metric.unit"
-
-                />
-
-            </div>
-            <p class="weather__placeholder" v-else>Введите город...</p>
-
+            <transition name="metric">
+                <div class="weather__card" v-if="weatherDataCard.length">
+                    <CardInfoComponent
+                        v-for="metric in weatherDataCard"
+                        :key="metric.title"
+                        :title="metric.title"
+                        :value="metric.value"
+                        :img="metric.img"
+                        :unit="metric.unit"
+                    />
+                </div>
+            </transition>
+            <p class="weather__placeholder" v-if="!weatherDataCard.length">Введите город...</p>
         </div>
-
         <div class="weather__right">
             <CardInfoBigComponent
                 :weatherData="weatherDataCardBig"
             />
         </div>
-
-
     </div>
 </template>
 
@@ -57,10 +50,8 @@ import {mapState, mapActions, mapMutations} from "vuex";
 import CardInfoComponent from "../blanks/CardInfo";
 import SearchComponent from "../ui/Search";
 import CardInfoBigComponent from "../blanks/CardInfoBig";
+
 export default {
-    data: () => ({
-        valueInputSearch: '',
-    }),
     components: {
         ButtonComponent,
         SelectComponent,
@@ -73,6 +64,7 @@ export default {
             selectOptionsWeather: state => state.weather.selectOptionsWeather,
             weatherDataCardBig: state => state.weather.weatherDataCardBig,
             weatherDataCard: state => state.weather.weatherDataCard,
+            valueInputSearch: state => state.valueInputSearch
         }),
     },
     methods: {
@@ -82,25 +74,16 @@ export default {
         ...mapMutations({
             setSentValueRequest: 'weather/setSentValueRequest',
             setTypeRequest: 'weather/setTypeRequest',
-            setIsShowOption: 'search/setIsShowOption'
+            setIsShowOption: 'search/setIsShowOption',
+            setValueInputSearch: 'setValueInputSearch'
         }),
-        getWeatherBySelect(typeRequest, valueRequest) {
+        getWeather(typeRequest) {
             this.setTypeRequest(typeRequest)
-            this.setSentValueRequest(valueRequest)
-            this.getWeatherData()
-        },
-        getWeatherByClickButton () {
-            this.setTypeRequest('q')
             this.setSentValueRequest(this.valueInputSearch)
             this.getWeatherData()
             this.setIsShowOption(false)
-        },
-        getValueInput (value) {
-            this.valueInputSearch = value
+            this.setValueInputSearch('')
         }
-    },
-    mounted() {
-        console.log(this.selectOptionsWeather)
     }
 }
 </script>

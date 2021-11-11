@@ -42,3 +42,16 @@
     }
 
 }
+
+//transition-metric
+.metric-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+.metric-enter-active, .metric-leave-active {
+    transition: all 300ms;
+}
+.metric-enter, .metric-leave-to {
+    opacity: 0;
+    transform: translateX(-50px);
+}
